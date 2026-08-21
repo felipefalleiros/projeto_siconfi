@@ -131,6 +131,32 @@ container = st.container(border=True)
 
 with container:
     
+    total_verificacoes = len(df_exibicao)
+    
+    total_notas_acima = (
+        df_exibicao["nota"] >= df_exibicao["media_estadual"]
+    ).sum()
+
+    total_notas_abaixo = (
+        df_exibicao["nota"] < df_exibicao["media_estadual"]
+    ).sum()
+    
+    container_cards = st.container(border=True)
+    with container_cards:
+        st.subheader("Totais")
+        
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric("Total de verificações", total_verificacoes)
+
+        with col2:
+            st.metric("Acima ou igual à média estadual", total_notas_acima)
+
+        with col3:
+            st.metric("Abaixo da média estadual", total_notas_abaixo)
+        
+    st.subheader(f"Notas das Verificações referentes a {dimensao_selecionada}")
     
     st.dataframe(
         df_tabela,
@@ -144,15 +170,4 @@ with container:
         use_container_width=True
     )
     
-        
-# df_dimensoes = df[
-#     (df["exercicio"] == exercicio_selecionado) &
-#     (df["aplicavel"] == True)
-# ]
 
-# dimensoes = sorted(df_dimensoes ["dimensao"].unique())
-
-# dimensao_selecionada = st.selectbox(
-#     "Dimensão",
-#     dimensoes
-# )
